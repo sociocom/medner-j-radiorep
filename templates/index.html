@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>類似読影所見提示システム</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://aoi.naist.jp/~s-yada/prism_entity.css">
+    <style media="screen">
+      p.doc {
+        background-color: whitesmoke;
+      }
+    </style>
+  </head>
+<body>
+<h1>
+  <a href="https://sociocom.naist.jp"><img src="/static/sociocom.png" alt="Social Computing Lab. Logo" width="30px"></a>
+  臨床医学表現認識ツール MedNER-J (読影所見版)
+</h1>
+<p>
+  臨床医学表現を検出したい読影所見を入力してください．
+  <button onClick="insert_eg()">読影所見の例を挿入</button>
+</p>
+<form action="/" method="post">
+  <textarea type="text" id="radiorep" name="radiorep" rows="10">{% if radiorep %}{{ radiorep }}{% endif %}</textarea>
+  <input type="submit" value="解析">
+</form>
+<hr>
+{% if radiorep_ner %}
+<h2>解析結果</h2>
+<p class="doc">{{ radiorep_ner }}</p>
+<hr>
+{% endif %}
+<p>Powered by <a href="https://sociocom.naist.jp">Social Computing Lab.</a> at <a href="http://www.naist.jp">NAIST</a></p>
+  <script>
+    var text_area = document.getElementById("radiorep")
+
+  function insert_eg() {
+    text_area.value = `左上葉に径18mm 大のSSN を認めます。AAH やAIS の可能性があります。
+右下葉にもGGN を散見します。炎症性変化かもしれませんが、フォローにて変化をご確認ください。
+左下葉に線状索状影を認め陳旧性炎症性変化が疑われます。
+縦隔や肺門に有意なリンパ節腫大は指摘できません。
+胸水はありません。`
+  }
+  </script>
+</body>
+</html>

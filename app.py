@@ -111,9 +111,19 @@ def mednerj2xml(analysed_text):
 
 def analyse(text):
     text = mojimoji.han_to_zen(text)
-    # texts = text.split("\n")
     sentences = ssplit(text)
-    analysed_text = model.predict(sentences)
+    sents = []
+    for sentence in sentences:
+        sentlen = len(sentence)
+        if sentlen > 100:
+            # slide a 100 char window to limit input text length
+            sents.extend(
+                [sentence[i * 100 : i * 100 + 100] for i in range(sentlen // 100 + 1)]
+            )
+        else:
+            sents.append(sentence)
+    print(sents)
+    analysed_text = model.predict(sents)
     xml = mednerj2xml("\n".join(analysed_text))
     return xml
 

@@ -47,16 +47,26 @@ def xml2html(doc):
     for entity in root.iter():
         if entity.tag == "root":
             continue
+        elif entity.tag == "br":
+            continue
         e_xml2html(entity)
-    return ET.tostring(root, encoding="unicode", method="html")
+    return (
+        ET.tostring(root, encoding="unicode", method="html")
+        .replace("<root>", "")
+        .replace("</root>", "")
+    )
 
 
 def mednerj2xml(analysed_text):
-    xmldoc = f"<root>{analysed_text}</root>"
+    at_br = analysed_text.replace("\n", "<br />")
+    xmldoc = f"<root>{at_br}</root>"
     root = ET.fromstring(xmldoc)
     for entity in root.iter():
         if entity.tag == "root":
             continue
+        if entity.tag == "br":
+            continue
+
         if "value" in entity.attrib:
             del entity.attrib["value"]
 
@@ -104,7 +114,7 @@ def analyse(text):
     # texts = text.split("\n")
     sentences = ssplit(text)
     analysed_text = model.predict(sentences)
-    xml = mednerj2xml("".join(analysed_text))
+    xml = mednerj2xml("\n".join(analysed_text))
     return xml
 
 

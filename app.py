@@ -122,7 +122,6 @@ def analyse(text):
             )
         else:
             sents.append(sentence)
-    print(sents)
     analysed_text = model.predict(sents)
     xml = mednerj2xml("\n".join(analysed_text))
     return xml

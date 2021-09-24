@@ -7,10 +7,12 @@ authors = ["Shuntaro Yada <contact@shuntaroy.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 medner-j = { git = "https://github.com/sociocom/MedNER-J.git"}
+textformatting = { git = "https://github.com/ku-nlp/python-textformatting.git" }
 Flask = "^2.0.1"
 mojimoji = "^0.0.11"
 
 [tool.poetry.dev-dependencies]
+black = {version = "^21.9b0", allow-prereleases = true}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

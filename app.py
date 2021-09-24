@@ -1,10 +1,8 @@
-import json
-import re
 import xml.etree.ElementTree as ET
 
 import mojimoji
-from flask import (Flask, Markup, redirect, render_template, request,
-                   send_from_directory, session)
+from textformatting import ssplit
+from flask import Flask, Markup, render_template, request, session
 from medner_j import Ner
 
 model = Ner.from_pretrained(model_name="radiology", normalizer="dict")
@@ -18,7 +16,7 @@ TAGNAMES = {
     "TIMEX3": "TIMEX3",
     "t-test": "testtest",
     "t-key": "testkey",
-    "t-val": "testval",
+    "tval": "testval",
     "m-key": "medkey",
     "m-val": "medval",
     "cc": "cc",
@@ -103,8 +101,10 @@ def mednerj2xml(analysed_text):
 
 def analyse(text):
     text = mojimoji.han_to_zen(text)
-    analysed_text = model.predict([text])
-    xml = mednerj2xml(analysed_text[0])
+    # texts = text.split("\n")
+    sentences = ssplit(text)
+    analysed_text = model.predict(sentences)
+    xml = mednerj2xml("".join(analysed_text))
     return xml
 
 
